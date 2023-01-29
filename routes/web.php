@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Product as AppProduct;
 use Illuminate\Support\Facades\Route;
+use Tests\Feature\ProductTest;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,11 @@ Route::get('/loadmeta', [Controller::class,'loadMeta']);
 Route::get('/delete', [Controller::class,'delete']);
 Route::get('/', function(){
     echo 'hi';
+});
+
+Route::get('/test',function(){
+
+    $test = new ProductTest();
+    $test=$test()->test_makeId();
+
 });

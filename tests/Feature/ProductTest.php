@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Product as ModelsProduct;
+
 
 class ProductTest extends TestCase
 {
@@ -18,5 +21,16 @@ class ProductTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
+    }
+
+    public function test_makeId(){
+
+        $product = new  ModelsProduct();
+        $lastId=$product->query()
+        ->latest()
+        ->first();
+        $product->makeId();
+        $response=$this->get('/');
+        //$response->a
     }
 }
