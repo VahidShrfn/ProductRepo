@@ -13,20 +13,21 @@ use PDO;
 define("PICTURE_KEY","picture");
 define("DESCRIPTION_KEY","description");
 define("PRICE_KEY","price");
-
 define("VIDEO_KEY","video");
-class Product{
 
+
+class Product{
     private ?string $value;
     private ?string $key;
-     
+    public function __construct(){
+    }
 
     public function makeId(){
         $product = ModelsProduct::query()
             ->create([
-                "type"=>"mobile",
-                "status"=>"active",
-            ]);
+            "type"=>"laptop",
+            "status"=>"active"]
+        ); 
         $product->meta()->createMany([
             [
                 'key'=>PICTURE_KEY,
@@ -40,33 +41,45 @@ class Product{
                 'key'=>PRICE_KEY,
                 'value'=>'100'
             ]
+            ]
+        );
+        $content = Modelscontent::query()->create([
+            "hash"=>"hash",
+            "path"=>"path"
         ]);
-        $content = Modelscontent::find([3, 4]);
         $product->contents()->attach($content);
     }
-
     public function loadMeta($id){
-
-        $product= ModelsProduct::where('id', $id)->first()->
-            meta()->where([
-                ['key',PICTURE_KEY],
-                ['key',DESCRIPTION_KEY],
-                ['key',PRICE_KEY]
-                ])->first();
-
-        print_r($product);
+        $product = ModelsProduct::query()->where('id', $id)->first()
+            ->meta()->whereIn('key',[PICTURE_KEY, DESCRIPTION_KEY, PRICE_KEY])->get();     
+        return $product->toJson(JSON_PRETTY_PRINT);
     }
-
     public function delete($id){
-
         $product = ModelsProduct::query()
             ->where('id', $id)->update([
                 "status"=>"deactive"
-            ]);
-
+            ]
+        ); 
     }
-
-
+    public function updateMeta($id,$price,$description,$picture){
+        /*
+        if($price!=null){
+            $product = ModelsProduct::query()
+                ->where('id', $id)->first()->meta()
+                    ->update(PRICE_KEY,$price);
+        }
+        if($description!=null){
+            $product = ModelsProduct::query()
+                ->where('id', $id)->first()->meta()
+                    ->update(DESCRIPTION_KEY,$description);
+        }
+        if($price!=null){
+            $product = ModelsProduct::query()
+                ->where('id', $id)->first()->meta()
+                    ->update(PICTURE_KEY,$picture);
+        }*/
+        echo 'Unknown Error';
+    }
     public function setValue($value){
         $this->value=$value;
     }
@@ -79,5 +92,4 @@ class Product{
     public function getKey($key){
         return $this->key;
     }
-
 }

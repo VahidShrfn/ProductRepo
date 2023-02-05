@@ -12,8 +12,7 @@ class Content extends Model
 
     protected $fillable =['path','hash'];
     
-    public function products()
-    {
-        return $this->belongsToMany(Product::class, 'ProductContent');
+    public function products(){
+        return $this->belongsToMany(Product::class, 'content_products');
     }
 }

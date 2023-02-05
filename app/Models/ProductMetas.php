@@ -11,6 +11,6 @@ class ProductMetas extends Model
     protected $fillable = ['key','value'];
     public function Product()
     {
-        return $this->belongsTo(Product::class,'product_id','id');
+        return $this->belongsTo(Product::class);
     }
 }

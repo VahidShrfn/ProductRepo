@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::group(['prefix' => 'product'], function () {
+    Route::post('makeId',[ProductController::class,'makeWithId']);
+    Route::get('loadMeta',[ProductController::class,'loadMeta']);
+    Route::get('deleteMeta',[ProductController::class,'delete']);
+    Route::get('updateMeta',[ProductController::class,'update']);
 });

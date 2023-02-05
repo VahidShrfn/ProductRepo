@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('Content_products', function (Blueprint $table) {
+        Schema::create('content_products', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
 
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->bigInteger('content_id')->unsigned();
 
             $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('content_id')->references('id')->on('products_meta');
+            $table->foreign('content_id')->references('id')->on('content');
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('procontent');
+        Schema::dropIfExists('content_products');
     }
 };

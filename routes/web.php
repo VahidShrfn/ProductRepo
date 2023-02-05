@@ -1,9 +1,14 @@
 <?php
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use App\Product as AppProduct;
+use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\Request as Request2;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Node\Expr\Print_;
 use Tests\Feature\ProductTest;
 
 /*
@@ -17,16 +22,8 @@ use Tests\Feature\ProductTest;
 |
 */
 
-Route::get('/makeid', [Controller::class,'makeId']);
-Route::get('/loadmeta', [Controller::class,'loadMeta']);
-Route::get('/delete', [Controller::class,'delete']);
-Route::get('/', function(){
+Route::get('/',function(){
     echo 'hi';
 });
 
-Route::get('/test',function(){
 
-    $test = new ProductTest();
-    $test=$test()->test_makeId();
-
-});

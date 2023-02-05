@@ -9,6 +9,7 @@ class Product extends Model
 {
     use HasFactory;
     protected $fillable = ['type','status'];
+    protected $table = 'products';
     public function product()
     {
         return $this->morphMany(content::class, 'id');
@@ -16,7 +17,7 @@ class Product extends Model
 
     public function meta()
     {
-        return $this->hasMany(ProductMetas::class,"product_id");
+        return $this->hasMany(ProductMetas::class);
     }
 
     public function contents()
