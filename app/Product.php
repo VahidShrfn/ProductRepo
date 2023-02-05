@@ -62,24 +62,33 @@ class Product{
         ); 
     }
     public function updateMeta($id,$price,$description,$picture){
-        /*
         if($price!=null){
+            echo $price.'<br>';
             $product = ModelsProduct::query()
-                ->where('id', $id)->first()->meta()
-                    ->update(PRICE_KEY,$price);
+                ->where('id', $id)->first()->meta()->where('key', PRICE_KEY)
+                ->update([ "value" => $price]);
+
         }
+        //dd(__LINE__);
         if($description!=null){
+            echo $description.'<br>';
             $product = ModelsProduct::query()
-                ->where('id', $id)->first()->meta()
-                    ->update(DESCRIPTION_KEY,$description);
+                ->where('id', $id)->first()->meta()->where('key',DESCRIPTION_KEY)
+                    ->update(["value"=>$description]);
         }
-        if($price!=null){
+        if($picture!=null){
+            echo $picture.'<br>';
             $product = ModelsProduct::query()
-                ->where('id', $id)->first()->meta()
-                    ->update(PICTURE_KEY,$picture);
-        }*/
-        echo 'Unknown Error';
+                ->where('id', $id)->first()->meta()->where('key',PICTURE_KEY)
+                    ->update(["value"=>$picture]);
+        }
+        echo 'Done';
     }
+
+
+
+
+    
     public function setValue($value){
         $this->value=$value;
     }
