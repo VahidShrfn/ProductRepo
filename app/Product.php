@@ -4,7 +4,7 @@ namespace App;
 use App\Models\Product as ModelsProduct;
 use App\Models\Content as Modelscontent;
 use App\Models\ProductContent as ModelsProductContent;
-
+use App\Models\ProductMetas;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailables\Content;
@@ -50,9 +50,14 @@ class Product{
         $product->contents()->attach($content);
     }
     public function loadMeta($id){
-        $product = ModelsProduct::query()->where('id', $id)->first()
-            ->meta()->whereIn('key',[PICTURE_KEY, DESCRIPTION_KEY, PRICE_KEY])->get();     
-        return $product->toJson(JSON_PRETTY_PRINT);
+        $product = ModelsProduct::query()->where('id',$id)->first();
+        $status=$product->status;
+        if($status=='active'){
+            $product = ModelsProduct::query()->where('id', $id)->first()
+                ->meta()->whereIn('key',[PICTURE_KEY, DESCRIPTION_KEY, PRICE_KEY])->get();     
+            return $product->toJson(JSON_PRETTY_PRINT);
+        }
+        return 'Product Not Found';
     }
     public function delete($id){
         $product = ModelsProduct::query()
@@ -63,7 +68,6 @@ class Product{
     }
     public function updateMeta($id,$price,$description,$picture){
         if($price!=null){
-            echo $price.'<br>';
             $product = ModelsProduct::query()
                 ->where('id', $id)->first()->meta()->where('key', PRICE_KEY)
                 ->update([ "value" => $price]);
@@ -71,18 +75,28 @@ class Product{
         }
         //dd(__LINE__);
         if($description!=null){
-            echo $description.'<br>';
             $product = ModelsProduct::query()
                 ->where('id', $id)->first()->meta()->where('key',DESCRIPTION_KEY)
                     ->update(["value"=>$description]);
         }
         if($picture!=null){
-            echo $picture.'<br>';
             $product = ModelsProduct::query()
                 ->where('id', $id)->first()->meta()->where('key',PICTURE_KEY)
                     ->update(["value"=>$picture]);
         }
         echo 'Done';
+    }
+
+
+    public function test(){
+
+        $prodcut= ModelsProduct::factory()
+            ->has(ProductMetas::factory()->count(3),'meta')->create();
+        $prodcut = ModelsProduct::factory()
+            ->hasAttached(
+                Modelscontent::factory()->count(3)
+            )
+            ->create();
     }
 
 

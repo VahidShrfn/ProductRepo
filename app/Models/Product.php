@@ -1,7 +1,9 @@
 <?php
 
+namespace Tests\Unit;
 namespace App\Models;
 
+use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,5 +26,12 @@ class Product extends Model
     {
         return $this->belongsToMany(Content::class, 'content_products');
     }
+
+    protected static function newFactory(){
+        
+        return ProductFactory::new();
+    
+    }
+
 
 }

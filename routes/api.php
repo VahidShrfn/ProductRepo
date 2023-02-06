@@ -24,4 +24,5 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('loadMeta',[ProductController::class,'loadMeta']);
     Route::get('deleteMeta',[ProductController::class,'delete']);
     Route::get('updateMeta',[ProductController::class,'update']);
+    Route::get('test',[ProductController::class,'test']);
 });

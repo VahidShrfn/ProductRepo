@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product as ModelsProduct;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class ProductController extends Controller
 
     public function loadMeta(){
         $product = new Product;
-        $product = $product->loadMeta(57);
+        $product = $product->loadMeta(13);
         print_r($product);  
     }
 
@@ -28,5 +29,12 @@ class ProductController extends Controller
     public function update(){
         $product = new Product;
         $product = $product->updateMeta(55,200,'','pec');
+    }
+
+    public function test(){
+        
+        $product = new Product;
+        $product->test();
+
     }
 }
