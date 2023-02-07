@@ -8,6 +8,7 @@ use App\Models\ProductMetas;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailables\Content;
+use Laravel\SerializableClosure\Contracts\Serializable;
 use PDO;
 
 define("PICTURE_KEY","picture");
@@ -27,7 +28,7 @@ class Product{
             ->create([
             "type"=>"laptop",
             "status"=>"active"]
-        ); 
+        );
         $product->meta()->createMany([
             [
                 'key'=>PICTURE_KEY,
@@ -54,7 +55,7 @@ class Product{
         $status=$product->status;
         if($status=='active'){
             $product = ModelsProduct::query()->where('id', $id)->first()
-                ->meta()->whereIn('key',[PICTURE_KEY, DESCRIPTION_KEY, PRICE_KEY])->get();     
+                ->meta()->whereIn('key',[PICTURE_KEY, DESCRIPTION_KEY, PRICE_KEY])->get();
             return $product->toJson(JSON_PRETTY_PRINT);
         }
         return 'Product Not Found';
@@ -64,7 +65,7 @@ class Product{
             ->where('id', $id)->update([
                 "status"=>"deactive"
             ]
-        ); 
+        );
     }
     public function updateMeta($id,$price,$description,$picture){
         if($price!=null){
@@ -91,18 +92,16 @@ class Product{
     public function test(){
 
         $prodcut= ModelsProduct::factory()
-            ->has(ProductMetas::factory()->count(3),'meta')->create();
-        $prodcut = ModelsProduct::factory()
-            ->hasAttached(
-                Modelscontent::factory()->count(3)
-            )
-            ->create();
+            ->has(ProductMetas::factory()->count(3),'meta')
+            ->hasAttached(Modelscontent::factory()->count(3))->make();
+        echo $prodcut->id.'<br>';
+        print_r($prodcut->toJson(JSON_PRETTY_PRINT));
     }
 
 
 
 
-    
+
     public function setValue($value){
         $this->value=$value;
     }

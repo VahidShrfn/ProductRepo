@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Models\Content as Modelscontent;
 use App\Models\Product as ModelsProduct;
 use App\Models\ProductMetas;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class ProductTest extends TestCase
 {
@@ -16,13 +16,29 @@ class ProductTest extends TestCase
      */
     public function test_example()
     {
-        $prodcut= ModelsProduct::factory()
-            ->has(ProductMetas::factory()->count(3),'meta')->create();
-        $prodcut = ModelsProduct::factory()
-            ->hasAttached(
-                Modelscontent::factory()->count(3)
-            )
-            ->create();
-        $this->assertTrue($prodcut);
+        $this->assertTrue(true);
+    }
+
+    public  function  test_make_id(){
+        $product= ModelsProduct::factory()
+            ->has(ProductMetas::factory()->count(3),'meta')
+            ->hasAttached(Modelscontent::factory()->count(3))->create();
+        $response=$this->post('/api/product/makeId',$product->toArray());
+        $response->assertStatus(200);
+    }
+    public function test_load_meta(){
+        $product= ModelsProduct::factory()
+            ->has(ProductMetas::factory()->count(3),'meta')
+            ->hasAttached(Modelscontent::factory()->count(3))->create();
+        $response = $this->get('/api/product/loadMeta',$product->toArray());
+        $response->assertStatus(200);
+    }
+
+    public function  test_delete(){
+        $product= ModelsProduct::factory()
+            ->has(ProductMetas::factory()->count(3),'meta')
+            ->hasAttached(Modelscontent::factory()->count(3))->create();
+        $response=$this->get('/api/product/deleteMeta',$product->toArray());
+        $response->assertStatus(200);
     }
 }
