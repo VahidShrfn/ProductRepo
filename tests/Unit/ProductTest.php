@@ -25,6 +25,9 @@ class ProductTest extends TestCase
             ->hasAttached(Modelscontent::factory()->count(3))->create();
         $response=$this->post('/api/product/makeId',$product->toArray());
         $response->assertStatus(200);
+        $response->dumpHeaders();
+        $response->dumpSession();
+        $response->dump();
     }
     public function test_load_meta(){
         $product= ModelsProduct::factory()

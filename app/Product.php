@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use App\Exceptions\MyException;
 use App\Models\Product as ModelsProduct;
 use App\Models\Content as Modelscontent;
 use App\Models\ProductContent as ModelsProductContent;
@@ -51,14 +52,19 @@ class Product{
         $product->contents()->attach($content);
     }
     public function loadMeta($id){
-        $product = ModelsProduct::query()->where('id',$id)->first();
-        $status=$product->status;
-        if($status=='active'){
-            $product = ModelsProduct::query()->where('id', $id)->first()
-                ->meta()->whereIn('key',[PICTURE_KEY, DESCRIPTION_KEY, PRICE_KEY])->get();
-            return $product->toJson(JSON_PRETTY_PRINT);
+        try {
+            $product = ModelsProduct::query()->where('id',$id)->first();
+            //print_r($product->toJson(JSON_PRETTY_PRINT));
+            $status=$product->status;
+            if($status=='active'){
+                return ModelsProduct::query()->where('id', $id)->first()
+                    ->meta()->whereIn('key',[PICTURE_KEY, DESCRIPTION_KEY, PRICE_KEY])->get()->toJson(JSON_PRETTY_PRINT);
+            }
+            return 'Product Not Found';
+        }catch (\Exception $exception){
+            throw new MyException();
         }
-        return 'Product Not Found';
+
     }
     public function delete($id){
         $product = ModelsProduct::query()

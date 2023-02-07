@@ -44,7 +44,15 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            //
+            $this->context();
         });
+    }
+
+
+    protected function context()
+    {
+        return array_merge(parent::context(), [
+            'foo' => 'bar',
+        ]);
     }
 }

@@ -17,19 +17,19 @@ class ProductController extends Controller
 
     public function loadMeta(){
         $product = new Product;
-        $product = $product->loadMeta(13);
+        $product = $product->loadMeta(12000);
         print_r($product);
     }
 
     public function delete(){
         $product = new Product;
-        $product = $product->delete('35');
+        $product = $product->delete('136');
 
     }
 
     public function update(){
         $product = new Product;
-        $product = $product->updateMeta(55,200,'','pec');
+        $product = $product->updateMeta(200,200,'','pec');
     }
 
     public function test(){
