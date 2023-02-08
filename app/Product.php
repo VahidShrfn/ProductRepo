@@ -9,6 +9,7 @@ use App\Models\ProductMetas;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailables\Content;
+use Illuminate\Support\Facades\Log;
 use Laravel\SerializableClosure\Contracts\Serializable;
 use PDO;
 
@@ -63,6 +64,8 @@ class Product{
             return 'Product Not Found';
         }catch (\Exception $exception){
             throw new MyException();
+        } finally {
+            Log::alert('Sth went wrong',['key'=>'value']);
         }
 
     }
